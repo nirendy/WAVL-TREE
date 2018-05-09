@@ -1,3 +1,5 @@
+import com.sun.org.apache.regexp.internal.REUtil;
+
 /**
  * WAVLTree
  * <p>
@@ -5,12 +7,11 @@
  */
 
 public class WAVLTree {
-    private WAVLNode root;
-    private WAVLNode externalLeaf; // TODO: add final
+    private       WAVLNode root;
+    private final WAVLNode externalLeaf;
     
     public WAVLTree() {
-        externalLeaf = null;
-        externalLeaf = new WAVLNode(null, null, null);
+        externalLeaf = new WAVLNode(null, null);
         root = externalLeaf;
     }
     
@@ -30,7 +31,7 @@ public class WAVLTree {
      * returns null
      */
     public String search(int k) {
-        return "42"; // to be replaced by student code
+        return this.root.searchNode(k).getValue();
     }
     
     /**
@@ -42,7 +43,13 @@ public class WAVLTree {
      * k already exists in the tree.
      */
     public int insert(int k, String i) {
-        return this.root.insert(new WAVLNode(k, i, 0)); // to be replaced by student code
+        // if the tree is empty
+        if (empty()) {
+            this.root = new WAVLNode(k, i);
+            return 0;
+        } else {
+            return this.root.insert(new WAVLNode(k, i));
+        }
     }
     
     /**
@@ -64,7 +71,16 @@ public class WAVLTree {
      * the tree is empty
      */
     public String min() {
-        return "42"; // to be replaced by student code
+        if (empty()) {
+            return null;
+        }
+        
+        WAVLNode cur = root;
+        while (cur.left.isInnerNode()) {
+            cur = cur.left;
+        }
+        
+        return cur.getValue();
     }
     
     /**
@@ -74,7 +90,16 @@ public class WAVLTree {
      * tree is empty
      */
     public String max() {
-        return "42"; // to be replaced by student code
+        if (empty()) {
+            return null;
+        }
+        
+        WAVLNode cur = root;
+        while (cur.right.isInnerNode()) {
+            cur = cur.right;
+        }
+        return cur.getValue();
+        
     }
     
     private WAVLNode[] inOrderWalk() {
@@ -141,7 +166,11 @@ public class WAVLTree {
      * node minimal node's successor
      */
     public String select(int i) {
-        return null;
+        if (i > size()) {
+            return "-1";
+        }
+        
+        return this.root.selectNode(i).getValue();
     }
     
     /**
@@ -157,10 +186,10 @@ public class WAVLTree {
         // private int      height; // TODO: need that?
         private Integer  rank;
         
-        public WAVLNode(Integer key, String value, Integer rank) {
+        public WAVLNode(Integer key, String value) {
             this.key = key;
             this.value = value;
-            this.rank = rank;
+            this.rank = 0;
             
             // TODO: this is recursive definition
             left = externalLeaf;
@@ -187,6 +216,10 @@ public class WAVLTree {
             return key != null;
         }
         
+        public boolean isExternalNode() {
+            return !isInnerNode();
+        }
+        
         public int getSubtreeSize() {
             // TODO: make it O(1)
             
@@ -197,7 +230,21 @@ public class WAVLTree {
             return left.getSubtreeSize() + right.getSubtreeSize() + 1;
         }
         
-        public int getHeight() {
+        private WAVLNode searchNode(int k) {
+            if (isExternalNode()) {
+                return this;
+            } else {
+                if (key == k) {
+                    return this;
+                } else if (k < this.key) {
+                    return left.searchNode(k);
+                } else {
+                    return right.searchNode(k);
+                }
+            }
+        }
+        
+        private int getHeight() {
             // TODO: make it O(1)
             
             if (!isInnerNode()) {
@@ -217,11 +264,36 @@ public class WAVLTree {
             return pos;
         }
         
-        public int insert(WAVLNode node) {
-            left.insert(node);
-            return 0; // to be replaced by student code
+        private int insert(WAVLNode node) {
+            if (this.key.equals(node.key)) {
+                return -1;
+            } else if (node.key < this.key) {
+                if (this.left.isExternalNode()) {
+                    left = node;
+                    return 1;
+                } else {
+                    return this.left.insert(node);
+                }
+            } else {
+                if (this.right.isExternalNode()) {
+                    right = node;
+                    return 1;
+                } else {
+                    return this.right.insert(node);
+                }
+            }
         }
         
+        private WAVLNode selectNode(int i) {
+            int leftSize = left.getSubtreeSize();
+            if (i <= leftSize) {
+                return left.selectNode(i);
+            } else if (i == leftSize + 1) {
+                return this;
+            } else {
+                return right.selectNode(i - (leftSize + 1));
+            }
+        }
     }
     
 }
