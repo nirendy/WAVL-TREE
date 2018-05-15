@@ -3,7 +3,7 @@ import java.util.Arrays;
 public class Tester {
     
     public static void main(String[] args) {
-`        test2();
+        test2();
     }
     
     public static void test1() {
