@@ -9,7 +9,7 @@ public class Tester {
     public static void test1() {
         WAVLTree kak = new WAVLTree();
         
-        System.out.println("min: " + kak.min());
+        System.out.println("min23: " + kak.min());
         System.out.println("max: " + kak.max());
         System.out.print("************\n");
         
