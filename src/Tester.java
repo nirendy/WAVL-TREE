@@ -54,6 +54,6 @@ public class Tester {
         System.out.println(WAVLTreePrinter.toString(kak));
     
     
-        // WAVLTester a = new WAVLTester("");
+        WAVLTester.main(null);
     }
 }

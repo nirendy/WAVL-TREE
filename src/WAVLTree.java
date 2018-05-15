@@ -200,6 +200,11 @@ public class WAVLTree {
             return key.intValue();
         }
         
+        public int getRank() {
+            // TODO: remove
+            return rank;
+        }
+        
         public String getValue() {
             return value;
         }
