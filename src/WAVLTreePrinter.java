@@ -26,6 +26,8 @@ class WAVLTreePrinter {
         
         String thisString = byKey ? String.valueOf(node.getKey()) : node.getValue();
         
+        thisString = thisString + "(" + node.getRank() + "-[" + node.getRankDiff(WAVLTree.NodeDirection.Left) + "," + node.getRankDiff(WAVLTree.NodeDirection.Right) + "])";
+        
         return concatenation(repr(node.getLeft(), byKey), thisString, repr(node.getRight(), byKey));
     }
     

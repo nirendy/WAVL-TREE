@@ -3,7 +3,7 @@ import java.util.Arrays;
 public class Tester {
     
     public static void main(String[] args) {
-        test4();
+        test5();
     }
     
     public static void test1() {
@@ -71,9 +71,34 @@ public class Tester {
         
     }
     
+    public static void test5() {
+        WAVLTree kak = new WAVLTree();
+        
+        for (int i = 9; i >= 1; i--) {
+            System.out.print("************\n");
+            kak.insert(i, "_" + i);
+            System.out.println(WAVLTreePrinter.toString(kak));
+            
+        }
+        
+        for (int i = 9; i >= 1; i--) {
+            if (i == 6) {
+                // if(i==6 || i==4 || i==3){
+                continue;
+            }
+            System.out.println("************\n delete: " + i);
+            kak.delete(i);
+            System.out.println(WAVLTreePrinter.toString(kak));
+            
+        }
+        
+        
+    }
+    
     public static void test4() {
         WAVLTree kak   = new WAVLTree();
-        int[]    order = {1,1,4,53,12,5,35,12,53,12,24,462,62,1,3,1,13,6,2,7,2,32,3,23,73,2,2};
+        int[]    order
+                       = {1, 1, 4, 53, 12, 5, 35, 12, 53, 12, 24, 462, 62, 1, 3, 1, 13, 6, 2, 7, 2, 32, 3, 23, 73, 2, 2};
         for (int i : order) {
             System.out.print("************\n");
             System.out.println(kak.insert(i, "_" + i));

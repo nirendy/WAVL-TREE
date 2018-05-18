@@ -308,24 +308,39 @@ public class WAVLTree {
             return pos;
         }
         
+        
         private WAVLNode successor() {
-            if (this == getMaxNode()) {
+            return this.dCessor(NodeDirection.Right);
+        }
+        
+        private WAVLNode predecessor() {
+            return this.dCessor(NodeDirection.Left);
+        }
+        
+        private WAVLNode dCessor(NodeDirection d) {
+            // d=right => return the successor
+            // d=left => return the predecessor
+            
+            NodeDirection oppD = getOppositeDirection(d);
+            if ((d == NodeDirection.Right && this == getMaxNode()) //
+                || (d == NodeDirection.Left && this == getMinNode())) {
                 return null;
             }
             
             if (this.getRight().isInnerNode()) {
-                WAVLNode candidate = this.getRight();
-                while (candidate.getLeft().isInnerNode()) {
-                    candidate = candidate.getLeft();
+                // find minimum in the right/left subtree
+                WAVLNode candidate = this.getChild(d);
+                while (candidate.getChild(oppD).isInnerNode()) {
+                    candidate = candidate.getChild(oppD);
                 }
                 return candidate;
             } else {
-                
-                WAVLNode candidate = this.getParent();
-                while (candidate.getParentDirection() == NodeDirection.Right) {
-                    candidate = candidate.getLeft();
+                // get the first node which is a right/left child
+                WAVLNode candidate = this;
+                while (candidate.getParentDirection() == d) {
+                    candidate = candidate.parent;
                 }
-                return candidate;
+                return candidate.parent;
             }
         }
         
@@ -379,12 +394,64 @@ public class WAVLTree {
             
         }
         
+        
+        // private WAVLNode remove() {
+        //     if (this.isLeaf()) {
+        //         this.getParent().setChild(this.getParentDirection(), externalLeaf);
+        //     } else {
+        //         // make leaf
+        //
+        //         // find target successor / predecessor to switch with
+        //         WAVLNode targetNode = this.successor();
+        //         if (this.successor() == null) {
+        //             targetNode = this.predecessor();
+        //         }
+        //
+        //         WAVLNode myParent = this.getParent();
+        //
+        //         // one child of the target
+        //         //
+        //
+        //
+        //         targetNode
+        //     }
+        //
+        // }
+        
+        private boolean isLeaf() {
+            return this.getLeft().isExternalNode()  //
+                   && this.getRight().isExternalNode();
+        }
+        
         private int delete(int key) {
-            
             NodeDirection direction;
             if (this.key.equals(key)) {
+                //todo: what happen if delete the root
                 
-                return 0;
+                //todo: make sure the rebalance point is correct
+                WAVLNode rebalancePoint;
+                if (this.isLeaf()) {
+                    rebalancePoint = this.getParent();
+                    this.getParent().setChild(this.getParentDirection(), externalLeaf);
+                } else if (this.getLeft().isExternalNode() || this.getRight().isExternalNode()) {
+                    rebalancePoint = this.getParent();
+                    WAVLNode onlyChild = this.getLeft().isExternalNode() ? this.getRight() : this.getLeft();
+                    this.getParent().setChild(this.getParentDirection(), onlyChild);
+                } else {
+                    // todo: fix that
+                    WAVLNode successor = this.successor();
+                    rebalancePoint = successor().parent;
+                    successor.getParent().setChild(this.getParentDirection(), successor.getRight());
+                    
+                    this.getParent().setChild(this.getParentDirection(), successor);
+                    successor.setChild(NodeDirection.Left, this.left);
+                    successor.setChild(NodeDirection.Right, this.right);
+                }
+                
+                if (this.isRoot()) {
+                    setRoot(this.successor());
+                }
+                return rebalancePoint.deletionBalance();
             } else if (key < this.key) {
                 direction = NodeDirection.Left;
             } else {
@@ -400,7 +467,7 @@ public class WAVLTree {
             
         }
         
-        private int getRankDiff(NodeDirection d) {
+        public int getRankDiff(NodeDirection d) {
             return this.rank - this.getChild(d).rank;
         }
         
@@ -518,8 +585,70 @@ public class WAVLTree {
             int rDiff = this.getRankDiff(NodeDirection.Right);
             System.out.println("key=" + this.key + ", Ldiff=" + lDiff + ", rDiff=" + rDiff);
             
-            
-            return 0;
+            if ((lDiff == 1 && rDiff == 1) //
+                || (lDiff == 2 && rDiff == 2) //
+                || (lDiff == 1 && rDiff == 2) //
+                || (lDiff == 2 && rDiff == 1)) {
+                
+                // stopping condition - after the rank diff is ok
+                return 0;
+            } else {
+                if ((lDiff == 3 && rDiff == 2) //
+                    || (lDiff == 2 && rDiff == 3)) {
+                    // child nodes diff is ok
+                    // but this node need demotion
+                    this.demotion();
+                    
+                    if (this.isRoot()) {
+                        // we got to the root
+                        return 1;
+                    } else {
+                        // move problem to my parent
+                        return 1 + this.getParent().deletionBalance();
+                    }
+                } else {
+                    
+                    NodeDirection d    = rDiff == 1 ? NodeDirection.Right : NodeDirection.Left;
+                    NodeDirection oppD = getOppositeDirection(d);
+                    
+                    WAVLNode probChild = this.getChild(d);
+                    
+                    int rProbDiff = probChild.getRankDiff(d);
+                    int lProbDiff = probChild.getRankDiff(oppD);
+                    
+                    if (lProbDiff == 2 && rProbDiff == 2) {
+                        this.demotion();
+                        probChild.demotion();
+                        
+                        //todo: need that?
+                        if (this.isRoot()) {
+                            // we got to the root
+                            return 2;
+                        } else {
+                            return 2 + this.parent.deletionBalance();
+                        }
+                        
+                    } else if ((lProbDiff == 1 || lProbDiff == 2) && rProbDiff == 1) {
+                        // todo: need demotions and promotions ?
+                        this.demotion();
+                        probChild.promotion();
+                        this.rotate(oppD);
+                        return 3;
+                    } else {
+                        // todo: need demotions and promotions ?
+    
+                        this.demotion();
+                        this.demotion();
+                        probChild.promotion();
+                        probChild.getChild(oppD).promotion();
+                        probChild.getChild(oppD).promotion();
+                        probChild.rotate(d);
+                        this.rotate(oppD);
+                        
+                        return 7;
+                    }
+                }
+            }
         }
         
         private WAVLNode selectNode(int i) {
