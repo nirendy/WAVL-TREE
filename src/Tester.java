@@ -4,10 +4,6 @@ public class Tester {
     
     public static void main(String[] args) {
         test3();
-        test3();
-        test3();
-        test3();
-        test3();
         // test6();
     }
     
@@ -172,6 +168,8 @@ public class Tester {
         kak.delete(1525);
         System.out.print("************\n");
         System.out.println(WAVLTreePrinter.toString(kak));
+        
+        
     }
     
     public static void test3() {

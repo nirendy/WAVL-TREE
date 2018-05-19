@@ -195,7 +195,7 @@ public class WAVLTree {
      */
     public String select(int i) {
         if (i <= 0 || i > size()) {
-            return "-1";
+            return null;
         }
         
         return this.root.selectNode(i).getValue();

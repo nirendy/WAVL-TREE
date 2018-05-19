@@ -473,7 +473,7 @@ public class WAVLTester {
         
         private boolean checkSelect() {
             int size = _tree.size();
-            if (_tree.empty() && _tree.select(0) != "-1")
+            if (_tree.empty() && _tree.select(0) != null)
                 return false;
             
             if (size != _existingKeys.size())
@@ -482,7 +482,7 @@ public class WAVLTester {
             Collections.sort(_existingKeys);
             for (int i = 1; i <= size; i++) {
                 String treeSelect = _tree.select(i);
-                if (treeSelect == "-1" || !treeSelect.equals("" + _existingKeys.get(i - 1))) {
+                if (treeSelect == null || !treeSelect.equals("" + _existingKeys.get(i - 1))) {
                     treeSelect = _tree.select(i);
                     return false;
                 }
