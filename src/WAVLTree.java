@@ -247,10 +247,12 @@ public class WAVLTree {
         
         public void promotion() {
             this.rank++;
+            System.out.println("Promote "+this.getKey()); // TODO: remove this
         }
-        
+
         public void demotion() {
             this.rank--;
+            System.out.println("Demote "+this.getKey()); // TODO: remove this
         }
         
         public String getValue() {
@@ -549,8 +551,9 @@ public class WAVLTree {
             A     B               B   Y
 
              */
-            
-            
+
+            System.out.println("Rotate "+this.getKey()+" "+d); // TODO: remove this
+
             NodeDirection oppD = getOppositeDirection(d);
             
             WAVLNode z = this;
