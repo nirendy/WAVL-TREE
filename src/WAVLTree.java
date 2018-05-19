@@ -43,7 +43,7 @@ public class WAVLTree {
     }
     
     /**
-     * public int insert(int k, String i)
+         * public int insert(int k, String i)
      * <p>
      * inserts an item with key k and info i to the WAVL tree. the tree must remain
      * valid (keep its invariants). returns the number of rebalancing operations, or
@@ -246,12 +246,10 @@ public class WAVLTree {
         
         public void promotion() {
             this.rank++;
-            System.out.println("Promote " + this.getKey()); // TODO: remove this
         }
         
         public void demotion() {
             this.rank--;
-            System.out.println("Demote " + this.getKey()); // TODO: remove this
         }
         
         public String getValue() {
@@ -441,7 +439,7 @@ public class WAVLTree {
                 
             }
             
-            // z.setChild(NodeDirection.Left, externalLeaf);
+
             
             if (this.isRoot()) {
                 x.setParent(null);
@@ -546,12 +544,12 @@ public class WAVLTree {
                     z                   x
                  __/ \               __/ \__
                 x     Y    --->     A       z
-             __/ \                 / \
-            A     B               B   Y
+             __/ \                         / \
+            A     B                       B   Y
 
              */
             
-            System.out.println("Rotate " + this.getKey() + " " + d); // TODO: remove this
+
             
             NodeDirection oppD = getOppositeDirection(d);
             
@@ -676,7 +674,7 @@ public class WAVLTree {
                         this.demotion();
                         probChild.demotion();
                         
-                        //todo: need that?
+
                         if (this.isRoot()) {
                             // we got to the root
                             return 2;
@@ -685,7 +683,7 @@ public class WAVLTree {
                         }
                         
                     } else if ((lProbDiff == 1 || lProbDiff == 2) && rProbDiff == 1) {
-                        // todo: need demotions and promotions ?
+
                         this.rotate(oppD);
                         probChild.promotion();
                         this.demotion();
@@ -695,7 +693,7 @@ public class WAVLTree {
                         }
                         return 3;
                     } else {
-                        // todo: need demotions and promotions ?
+
                         
                         this.demotion();
                         this.demotion();

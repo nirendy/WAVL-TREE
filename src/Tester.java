@@ -4,9 +4,9 @@ import java.util.Scanner;
 public class Tester {
     
     public static void main(String[] args) {
-//        test3();
+        test3();
 //         test6();
-        test7();
+//        test7();
     }
     
     public static void test1() {
