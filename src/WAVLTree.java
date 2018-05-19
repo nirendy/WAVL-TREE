@@ -703,7 +703,7 @@ public class WAVLTree {
                         probChild.rotate(d);
                         this.rotate(oppD);
                         
-                        return 7;
+                        return 5;
                     }
                 }
             }
