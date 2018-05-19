@@ -11,10 +11,6 @@ public class WAVLTree {
         Right, Left
     }
     
-    // public enum BalanceCase {
-    //     A, B, C
-    // }
-    
     private       WAVLNode root;
     private final WAVLNode externalLeaf;
     private       WAVLNode min;
@@ -55,9 +51,9 @@ public class WAVLTree {
      * k already exists in the tree.
      */
     public int insert(int k, String i) {
-        // if the tree is empty
         WAVLNode newNode = new WAVLNode(k, i);
         if (empty()) {
+            // if the tree is empty
             this.setRoot(newNode);
             this.min = newNode;
             this.max = newNode;
@@ -88,11 +84,14 @@ public class WAVLTree {
             return -1;
         }
         if (this.size() == 1 && this.getRoot().getKey() == k) {
+            // deleting the root
             min = externalLeaf;
             max = externalLeaf;
         } else if (k == min.getKey()) {
+            // deleting the min (will always have successor because of the last if)
             min = min.successor();
         } else if (k == max.getKey()) {
+            // deleting the min (same as above)
             max = max.predecessor();
         }
         return this.root.delete(k);
@@ -247,12 +246,12 @@ public class WAVLTree {
         
         public void promotion() {
             this.rank++;
-            System.out.println("Promote "+this.getKey()); // TODO: remove this
+            System.out.println("Promote " + this.getKey()); // TODO: remove this
         }
-
+        
         public void demotion() {
             this.rank--;
-            System.out.println("Demote "+this.getKey()); // TODO: remove this
+            System.out.println("Demote " + this.getKey()); // TODO: remove this
         }
         
         public String getValue() {
@@ -551,9 +550,9 @@ public class WAVLTree {
             A     B               B   Y
 
              */
-
-            System.out.println("Rotate "+this.getKey()+" "+d); // TODO: remove this
-
+            
+            System.out.println("Rotate " + this.getKey() + " " + d); // TODO: remove this
+            
             NodeDirection oppD = getOppositeDirection(d);
             
             WAVLNode z = this;
