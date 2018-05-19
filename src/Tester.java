@@ -3,7 +3,12 @@ import java.util.Arrays;
 public class Tester {
     
     public static void main(String[] args) {
-        test5();
+        test3();
+        test3();
+        test3();
+        test3();
+        test3();
+        // test6();
     }
     
     public static void test1() {
@@ -61,7 +66,7 @@ public class Tester {
     public static void test2() {
         WAVLTree kak = new WAVLTree();
         
-        for (int i = 3; i >= 1; i--) {
+        for (int i = 1; i <= 10; i++) {
             System.out.print("************\n");
             kak.insert(i, "_" + i);
             System.out.println(WAVLTreePrinter.toString(kak));
@@ -69,6 +74,12 @@ public class Tester {
         }
         
         
+        for (int i = 1; i <= 10; i++) {
+            System.out.print("************\nDelete:" + i + "\n");
+            kak.delete(i);
+            System.out.println(WAVLTreePrinter.toString(kak));
+            
+        }
     }
     
     public static void test5() {
@@ -82,10 +93,6 @@ public class Tester {
         }
         
         for (int i = 9; i >= 1; i--) {
-            if (i == 6) {
-                // if(i==6 || i==4 || i==3){
-                continue;
-            }
             System.out.println("************\n delete: " + i);
             kak.delete(i);
             System.out.println(WAVLTreePrinter.toString(kak));
@@ -97,13 +104,74 @@ public class Tester {
     
     public static void test4() {
         WAVLTree kak   = new WAVLTree();
-        int[]    order
-                       = {1, 1, 4, 53, 12, 5, 35, 12, 53, 12, 24, 462, 62, 1, 3, 1, 13, 6, 2, 7, 2, 32, 3, 23, 73, 2, 2};
+        int[]    order = {1, 4, 7, 8, 1, 8, 4, 543, 63, 2, 3, 5, 6, 25, 131, 233, 32, 3425, 3, 32, 22, 3, 567, 2};
         for (int i : order) {
             System.out.print("************\n");
             System.out.println(kak.insert(i, "_" + i));
             System.out.println(WAVLTreePrinter.toString(kak));
         }
+        
+        int[] delorder = {7, 1, 5, 7, 3, 3, 43, 543, 6, 4, 5, 6, 7, 25, 131, 233, 3425};
+        
+        for (int i : delorder) {
+            System.out.print("************ delete : " + i + "\n");
+            System.out.println(kak.delete(i));
+            System.out.println(WAVLTreePrinter.toString(kak));
+        }
+    }
+    
+    
+    public static void test6() {
+        WAVLTree kak = new WAVLTree();
+        
+        kak.insert(4293, "_4293");
+        System.out.print("************\n");
+        System.out.println(WAVLTreePrinter.toString(kak));
+        kak.insert(4293, "_4293");
+        System.out.print("************\n");
+        System.out.println(WAVLTreePrinter.toString(kak));
+        kak.insert(1525, "_1525");
+        System.out.print("************\n");
+        System.out.println(WAVLTreePrinter.toString(kak));
+        kak.insert(1525, "_1525");
+        System.out.print("************\n");
+        System.out.println(WAVLTreePrinter.toString(kak));
+        kak.insert(969, "_969");
+        System.out.print("************\n");
+        System.out.println(WAVLTreePrinter.toString(kak));
+        kak.delete(4332);
+        System.out.print("************\n");
+        System.out.println(WAVLTreePrinter.toString(kak));
+        kak.insert(1417, "_1417");
+        System.out.print("************\n");
+        System.out.println(WAVLTreePrinter.toString(kak));
+        kak.insert(2106, "_2106");
+        System.out.print("************\n");
+        System.out.println(WAVLTreePrinter.toString(kak));
+        kak.insert(1592, "_1592");
+        System.out.print("************\n");
+        System.out.println(WAVLTreePrinter.toString(kak));
+        kak.insert(4704, "_4704");
+        System.out.print("************\n");
+        System.out.println(WAVLTreePrinter.toString(kak));
+        kak.delete(1417);
+        System.out.print("************\n");
+        System.out.println(WAVLTreePrinter.toString(kak));
+        kak.insert(1858, "_1858");
+        System.out.print("************\n");
+        System.out.println(WAVLTreePrinter.toString(kak));
+        kak.delete(969);
+        System.out.print("************\n");
+        System.out.println(WAVLTreePrinter.toString(kak));
+        kak.delete(4293);
+        System.out.print("************\n");
+        System.out.println(WAVLTreePrinter.toString(kak));
+        kak.delete(1592);
+        System.out.print("************\n");
+        System.out.println(WAVLTreePrinter.toString(kak));
+        kak.delete(1525);
+        System.out.print("************\n");
+        System.out.println(WAVLTreePrinter.toString(kak));
     }
     
     public static void test3() {
