@@ -217,8 +217,7 @@ public class WAVLTree {
             this.value = value;
             this.rank = (key == null) ? -1 : 0;
             this.size = (key == null) ? 0 : 1;
-            
-            // TODO: this is recursive definition
+
             this.left = externalLeaf;
             this.right = externalLeaf;
         }
