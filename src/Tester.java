@@ -1,10 +1,12 @@
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class Tester {
     
     public static void main(String[] args) {
-        test3();
-        // test6();
+//        test3();
+//         test6();
+        test7();
     }
     
     public static void test1() {
@@ -171,9 +173,79 @@ public class Tester {
         
         
     }
-    
+
     public static void test3() {
         WAVLTester.main(null);
-        
+    }
+
+
+    public static void addRemove(WAVLTree kak, int k, int j) { // print tree
+        System.out.println("****************");
+        int balanceOpeartions;
+        if (j == 1) {
+            System.out.println("inserted:" + k + "\n");
+            balanceOpeartions = kak.insert(k, "_" + k + "_");
+        } else {
+            System.out.println("deleted:" + k + "\n");
+            balanceOpeartions = kak.delete(k);
+        }
+        System.out.println("tree: ");
+        System.out.println(WAVLTreePrinter.toString(kak)+"\n");
+
+        System.out.println("# of balance operations: " + balanceOpeartions);
+        System.out.println("min: " + kak.min());
+        System.out.println("max: " + kak.max());
+        System.out.println("size: " + kak.size());
+        System.out.println("select 1: " + kak.select(1));
+        System.out.println("select 2: " + kak.select(3));
+        System.out.println("select 5: " + kak.select(5));
+        System.out.println("keys inorder scan : " + Arrays.toString(kak.keysToArray()));
+        System.out.println("values inorder scan : " + Arrays.toString(kak.infoToArray()));
+        System.out.println("root: " + kak.getRoot().getValue());
+        System.out.println("search 5: " + kak.search(5));
+        System.out.println("root is empty: " + kak.empty());
+
+
+
+        System.out.println("****************\n");
+    }
+
+    public static void add(WAVLTree kak, int k){ // print tree
+        addRemove(kak, k, 1);
+    }
+
+    public static void remove(WAVLTree kak, int k) { // print tree
+        addRemove(kak, k, 2);
+    }
+
+    public static void test7() {
+        WAVLTree kak = new WAVLTree();
+//        int[] order = {1,2,3,4,5,6,7,8,9};
+//        for (int i : order)
+//        {
+//            add(kak,i);
+//        }
+//        for (int i : order)
+//        {
+//            remove(kak,i);
+//        }
+        Scanner y = new Scanner(System.in);
+        int i;
+        String op = " ";
+        while (op.compareTo("stop") != 0) {
+            i = y.nextInt();
+            op = y.next();
+            if (op.compareTo("add") == 0 || op.compareTo("a") == 0) {
+                add(kak, i);
+                continue;
+            }
+            if (op.compareTo("remove") == 0 || op.compareTo("r") == 0) {
+                remove(kak, i);
+                continue;
+            }
+            System.out.println("wrong input");
+        }
+
+        y.close();
     }
 }
