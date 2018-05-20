@@ -2,6 +2,8 @@
  * WAVLTree
  * <p>
  * An implementation of a WAVL Tree. (Haupler, Sen & Tarajan ‘15)
+ * made by: Yahav Ben Yaakov, 305170987
+ *          Nir Endy,
  */
 
 public class WAVLTree {
@@ -105,7 +107,8 @@ public class WAVLTree {
     public String min() {
         return this.getMinNode().getValue();
     }
-    
+
+    // returns the min node
     private WAVLNode getMinNode() {
         return min;
     }
@@ -119,11 +122,13 @@ public class WAVLTree {
     public String max() {
         return this.getMaxNode().getValue();
     }
-    
+
+    // returns the max node
     private WAVLNode getMaxNode() {
         return max;
     }
-    
+
+    // returns an array of all nodes, sorted by keys
     private WAVLNode[] inOrderWalk() {
         WAVLNode[] inOrderArray = new WAVLNode[size()];
         this.root.fillInOrderArray(inOrderArray, 0);
@@ -177,7 +182,8 @@ public class WAVLTree {
     public WAVLNode getRoot() {
         return root;
     }
-    
+
+    // update the root
     private void setRoot(WAVLNode newRoot) {
         this.root = newRoot;
     }
@@ -220,11 +226,13 @@ public class WAVLTree {
             this.left = externalLeaf;
             this.right = externalLeaf;
         }
-        
+
+        // check if the node is root of his tree
         private boolean isRoot() {
             return this == getRoot();
         }
-        
+
+        // set parent of the node
         private void setParent(WAVLNode parent) {
             if (this.isExternalNode()) {
                 return;
@@ -232,65 +240,78 @@ public class WAVLTree {
             
             this.parent = parent;
         }
-        
+
+        // get key of the node
         public int getKey() {
             return this.key == null ? -1 : this.key;
         }
-        
+
+        // get rank of the node
         public int getRank() {
-            // TODO: remove
             return this.rank;
         }
-        
+
+        // promote rank of the node by 1
         public void promotion() {
             this.rank++;
         }
-        
+
+        // demote rank of the node by 1
         public void demotion() {
             this.rank--;
         }
-        
+
+        // get value of the node
         public String getValue() {
             return this.value;
         }
-        
+
+        // get the left child of a node
         public WAVLNode getLeft() {
             return this.getChild(NodeDirection.Left);
         }
-        
+
+        // get the right child of a node
         public WAVLNode getRight() {
             return this.getChild(NodeDirection.Right);
         }
-        
+
+        // return true if the node is an inner node
         public boolean isInnerNode() {
             return this.key != null;
         }
-        
+
+        // return true if the node is an external node
         public boolean isExternalNode() {
             return !this.isInnerNode();
         }
-        
+
+        // return size of the tree which the node is the root of
         public int getSubtreeSize() {
             return this.size;
         }
-        
+
+        // update subtree size of the node
         public void setSubtreeSize(int newSize) {
             this.size = newSize;
         }
-        
+
+        // increase subtree size of the node by 1
         public void incSubtreeSize() {
             this.setSubtreeSize(this.size + 1);
         }
-        
+
+        // decrease subtree size of the node by 1
         public void decSubtreeSize() {
             this.setSubtreeSize(this.size - 1);
         }
-        
+
+        // update subtree size of the node following the subtree sizes of his children
         private void updateSubtreeSize() {
             this.size = 1 + this.getLeft().getSubtreeSize() + this.getRight().getSubtreeSize();
         }
         
-        
+        // search a node in the tree, implements WAVLTree search
         private WAVLNode searchNode(int k) {
             if (isExternalNode()) {
                 return this;
@@ -304,7 +325,9 @@ public class WAVLTree {
                 }
             }
         }
-        
+
+        // return a sorted array of all tree nodes, sorted by keys
+        // implements WAVLTree inOrderWalk
         private int fillInOrderArray(WAVLNode[] inOrderArray, int pos) {
             if (isInnerNode()) {
                 pos = this.left.fillInOrderArray(inOrderArray, pos);
@@ -315,15 +338,18 @@ public class WAVLTree {
             return pos;
         }
         
-        
+        // return the successor of a node, null if there is no successor
         private WAVLNode successor() {
             return this.dCessor(NodeDirection.Right);
         }
-        
+
+        // return the predecessor of a node, null if there is no successor
         private WAVLNode predecessor() {
             return this.dCessor(NodeDirection.Left);
         }
-        
+
+        // return the successor / predecessor according to direction received
+        // implements functions: successor, predecessor
         private WAVLNode dCessor(NodeDirection d) {
             // d=right => return the successor
             // d=left => return the predecessor
@@ -350,11 +376,14 @@ public class WAVLTree {
                 return candidate.parent;
             }
         }
-        
+
+        // returns the parent of the node, null if node is the root
         private WAVLNode getParent() {
             return this.parent;
         }
-        
+
+        // receives a direction 'd' and a new node, and sets the new node
+        // as a 'd' child of the current node
         private void setChild(NodeDirection d, WAVLNode child) {
             if (this.isExternalNode()) {
                 return;
@@ -367,7 +396,8 @@ public class WAVLTree {
                 this.right = child;
             }
         }
-        
+
+        // returns left/right child of the node
         private WAVLNode getChild(NodeDirection d) {
             if (d == NodeDirection.Left) {
                 return this.left;
@@ -376,7 +406,7 @@ public class WAVLTree {
             }
         }
         
-        
+        // insert a node to the tree, implements WAVLTree insert
         private int insert(WAVLNode node) {
             NodeDirection direction;
             if (this.key.equals(node.key)) {
@@ -406,12 +436,13 @@ public class WAVLTree {
             }
         }
         
-        
+        // returns true if the node is a leaf
         private boolean isLeaf() {
             return this.getLeft().isExternalNode()  //
                    && this.getRight().isExternalNode();
         }
-        
+
+        // perform a switch between two nodes (middle stage in deletion)
         private void switchWith(WAVLNode node) {
             WAVLNode z       = this;
             WAVLNode x       = node;
@@ -419,8 +450,9 @@ public class WAVLTree {
             WAVLNode xParent = node.getParent();
             x.rank = z.getRank();
             NodeDirection zParentDirection = z.isRoot() ? null : z.getParentDirection();
-            
-            if (z == xParent) {
+
+
+            if (z == xParent) { // switch between a child and parent
                 WAVLNode xRight = x.getRight();
                 z.setChild(NodeDirection.Right, externalLeaf);
                 x.setChild(NodeDirection.Right, z);
@@ -438,26 +470,28 @@ public class WAVLTree {
             }
             
 
-            
+            // update root if necessary
             if (this.isRoot()) {
                 x.setParent(null);
                 setRoot(x);
             } else {
                 zParent.setChild(zParentDirection, x);
             }
-            
+
+            // fix subtree sizes of nodes affected from the deletion
             while (z.parent != x) {
                 z = z.getParent();
                 z.decSubtreeSize();
             }
         }
-        
+
+        // delete a node from the tree, implements WAVLTree delete
         private int delete(int key) {
             NodeDirection direction;
-            if (this.key.equals(key)) {
+            if (this.key.equals(key)) { // found node to delete
                 this.decSubtreeSize();
                 
-                if (this.isLeaf()) {
+                if (this.isLeaf()) { // node is a leaf
                     if (this.isRoot()) {
                         setRoot(externalLeaf);
                         return 0;
@@ -466,7 +500,7 @@ public class WAVLTree {
                         RB.setChild(this.getParentDirection(), externalLeaf);
                         return RB.deletionBalance();
                     }
-                } else if (this.getLeft().isExternalNode() || this.getRight().isExternalNode()) {
+                } else if (this.getLeft().isExternalNode() || this.getRight().isExternalNode()) { // node has only 1 child
                     WAVLNode onlyChild = this.getLeft().isExternalNode() ? this.getRight() : this.getLeft();
                     if (this.isRoot()) {
                         setRoot(onlyChild);
@@ -476,7 +510,7 @@ public class WAVLTree {
                         this.getParent().setChild(this.getParentDirection(), onlyChild);
                         return onlyChild.getParent().deletionBalance();
                     }
-                } else {
+                } else { // node has 2 children
                     WAVLNode successor = this.successor();
                     WAVLNode RB        = successor.getParent();
                     this.switchWith(successor);
@@ -498,7 +532,7 @@ public class WAVLTree {
             
             if (this.getChild(direction).isExternalNode()) {
                 
-                // increase size back up
+                // node to delete not found, increase size back up
                 WAVLNode curParent = this;
                 while (!curParent.isRoot()) {
                     curParent = curParent.getParent();
@@ -513,18 +547,22 @@ public class WAVLTree {
             }
             
         }
-        
+
+        // returns the rank difference between a node to his 'd' child
         public int getRankDiff(NodeDirection d) {
             return this.rank - this.getChild(d).rank;
         }
-        
+
+        // returns the opposite direction of 'd'
         private NodeDirection getOppositeDirection(NodeDirection d) {
             return d == NodeDirection.Left ? NodeDirection.Right : NodeDirection.Left;
         }
-        
+
+        // return the direction of the node in relate to his parent
+        // e.g left if he is a left child of his parent
         private NodeDirection getParentDirection() {
             
-            // return D if the node is a D child of his parent
+
             if (this.getParent().getChild(NodeDirection.Left) == this) {
                 return NodeDirection.Left;
             } else {
@@ -570,7 +608,9 @@ public class WAVLTree {
             x.updateSubtreeSize();
             
         }
-        
+
+        // balance the tree after insertion
+        // returns the number of balancing operations needed
         private int insertionBalance() {
             int lDiff = this.getRankDiff(NodeDirection.Left);
             int rDiff = this.getRankDiff(NodeDirection.Right);
@@ -629,7 +669,9 @@ public class WAVLTree {
                 }
             }
         }
-        
+
+        // balance the tree after deletion
+        // returns the number of balancing operations needed
         private int deletionBalance() {
             int lDiff = this.getRankDiff(NodeDirection.Left);
             int rDiff = this.getRankDiff(NodeDirection.Right);
@@ -641,7 +683,7 @@ public class WAVLTree {
                 // stopping condition - after the rank diff is ok
                 return 0;
             } else if (lDiff == 2 && rDiff == 2) {
-                // is a leaf
+                // a leaf with rank 1, demote and move the problem up
                 this.demotion();
                 return 1 + (this.isRoot() ? 0 : this.getParent().deletionBalance());
             } else {
@@ -705,7 +747,9 @@ public class WAVLTree {
                 }
             }
         }
-        
+
+        // returns the i-th's node in the tree by key size
+        // implements WAVLTree select
         private WAVLNode selectNode(int i) {
             int leftSize = this.left.getSubtreeSize();
             if (i <= leftSize) {
