@@ -2,8 +2,8 @@
  * WAVLTree
  * <p>
  * An implementation of a WAVL Tree. (Haupler, Sen & Tarajan ‘15)
- * made by: Yahav Ben Yaakov, 305170987
- *          Nir Endy,
+ * made by: Yahav Ben Yaakov (Yahavb), 305170987
+ *          Nir Endy (Nirendy), 205686397
  */
 
 public class WAVLTree {
@@ -29,7 +29,6 @@ public class WAVLTree {
      * returns true if and only if the tree is empty
      */
     public boolean empty() {
-        // todo: root.isExternalNode()
         return root == externalLeaf;
     }
     
