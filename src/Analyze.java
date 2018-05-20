@@ -3,7 +3,7 @@ import java.util.Random;
 
 public class Analyze {
     
-    static final int TIMES = 50;
+    static final int TIMES = 10;
     
     public static void main(String[] args) {
         String[] resultsArr = new String[TIMES];

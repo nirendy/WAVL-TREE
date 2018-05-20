@@ -1,5 +1,3 @@
-import javax.xml.soap.Node;
-
 /**
  * WAVLTree
  * <p>
@@ -29,6 +27,7 @@ public class WAVLTree {
      * returns true if and only if the tree is empty
      */
     public boolean empty() {
+        // todo: root.isExternalNode()
         return root == externalLeaf;
     }
     
@@ -688,7 +687,6 @@ public class WAVLTree {
                         this.demotion();
                         if (this.isLeaf() && this.getRankDiff(d) == 2 && this.getRankDiff(oppD) == 2) {
                             this.demotion();
-                            return 4;
                         }
                         return 3;
                     } else {
